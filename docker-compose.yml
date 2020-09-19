@@ -31,11 +31,11 @@ services:
     image: mysql:5.7
     container_name: gitea_mysql
     restart: always
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      - MYSQL_ROOT_PASSWORD=testertester78
-#      - MYSQL_USER=admin
-#      - MYSQL_PASSWORD=superpassword
-#      - MYSQL_DATABASE=nextcloud
+#      - MYSQL_ROOT_PASSWORD=testertester78
+      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     networks:
       - main_network
     volumes:
@@ -43,10 +43,10 @@ services:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/initdb.sql
     ports:
       - "3306:3306"
-#    healthcheck:
-#        test: mysqladmin ping -h localhost -uroot --password=$$MYSQL_PASSWORD
-#        timeout: 20s
-#        retries: 10
+    healthcheck:
+        test: mysqladmin ping
+        timeout: 20s
+        retries: 10
 
 #  adminer:
 #    image: adminer:latest
@@ -79,4 +79,3 @@ volumes:
 
 networks:
   main_network:
-
